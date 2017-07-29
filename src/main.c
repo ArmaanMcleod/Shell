@@ -1,3 +1,4 @@
+/* necessary modules included */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,6 +7,7 @@
 
 #define MAX_PATH 1024
 
+/* main loop for running shell commands */
 void loop(void) {
 	char *line = NULL;
 	char **args = NULL;
@@ -29,8 +31,10 @@ void loop(void) {
 	} while (status);
 }
 
+/* function all gets run here */
 int main(int argc, char *argv[]) {
-
+    
+    /* main loop */
 	loop();
     
     exit(EXIT_SUCCESS);

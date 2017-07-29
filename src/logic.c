@@ -1,3 +1,4 @@
+/* necessary modules imported */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,11 +16,13 @@
 
 #define NUM_BUILTINS(x) (sizeof(x) / sizeof(char *))
 
+/* function prototypes */
 int cd_command(char **args);
 int help_command(char **args);
 int exit_command(char **args);
 int cat_command(char **args);
 
+/* commands created */
 const char *builtin_str[] = {
 	"cd",
 	"help",
@@ -27,6 +30,7 @@ const char *builtin_str[] = {
 	"cat"
 };
 
+/* function arguments to make function calls simpler */
 int (*builtin_func[]) (char **) = {
 	&cd_command,
 	&help_command,
@@ -34,17 +38,21 @@ int (*builtin_func[]) (char **) = {
 	&cat_command
 };
 
+/* function which reads a line */
 char *read_line(void) {
 	int buffsize = BUFFSIZE, position = 0, ch;
 	char *buffer = NULL;
 	void *temp = NULL;
 
+    /* dynamically allocated space to store line */
 	buffer = malloc(buffsize+1);
 	if (!buffer) {
 		fprintf(stderr, ALLOC_ERROR);
 		exit(EXIT_FAILURE);
 	}
-
+    
+    /* main loop for reading a line */
+    /* could also use getline here */
 	while (true) {
 		ch = getchar();
 
@@ -56,7 +64,8 @@ char *read_line(void) {
 		}
 
 		buffer[position++] = ch;
-
+        
+        /* reallocating more space for buffer */
 		if (position >= buffsize) {
 			buffsize *= 2;
 			temp = realloc(buffer, buffsize);
@@ -69,13 +78,15 @@ char *read_line(void) {
 	}
 }
 
+/* function for parsing a line */
 char **split_line(char *line) {
 	int buffsize = TOKEN_BUFFSIZE, position = 0;
 	char **tokens = NULL;
 	char *token = NULL, *copy = NULL;
 	void *temp = NULL;
 	const char *delim = TOKEN_DELIM;
-
+    
+    /* tokens storage */
 	tokens = malloc(buffsize * sizeof(*tokens));
 	if (!tokens) {
 		fprintf(stderr, ALLOC_ERROR);
@@ -84,6 +95,8 @@ char **split_line(char *line) {
 
 	copy = line;
 	token = strtok(copy, delim);
+
+    /* safely parses the line */
 	while (token != NULL) {
 		tokens[position++] = token;
 
@@ -105,6 +118,7 @@ char **split_line(char *line) {
 	return tokens;
 }
 
+/* function which launches commands */
 int launch(char **args) {
 	pid_t pid;
 	int status;
@@ -126,6 +140,7 @@ int launch(char **args) {
 	return 1;
 }
 
+/* function which excecutes commands */
 int execute(char **args) {
 	int i;
 
@@ -142,6 +157,7 @@ int execute(char **args) {
 	return launch(args);
 }
 
+/* cd command */
 int cd_command(char **args) {
 	if (args[1] == NULL) {
 		fprintf(stderr, "Shell: expected arguement to \"cd\"\n");
@@ -154,6 +170,7 @@ int cd_command(char **args) {
 	return 1;
 }
 
+/* help command */
 int help_command(char **args) {
 	int i;
 
@@ -169,12 +186,14 @@ int help_command(char **args) {
   	return 1;
 }
 
+/* Nice and short exit command */
 int exit_command(char **args) {
 	return 0;
 }
 
+/* cat command */
 int cat_command(char **args) {
-	int i, ch;
+    int i, ch;
 	FILE *file;
 
 	if (args[1] == NULL) {
