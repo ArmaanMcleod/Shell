@@ -1,7 +1,7 @@
 # Structure of files
 
 #### Makefile
-Compiles the prject by typing 'make'.
+Compiles the project by typing 'make'.
 
 #### logic.c/logic.h
 Files which contain all the logic for the shell. 
