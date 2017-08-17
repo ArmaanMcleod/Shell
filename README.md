@@ -1,8 +1,8 @@
-# Basic Shell in C
+# Personal Project: A Basic Shell in C
 
-It can do basic commands such as cat, ls, help and cd
+This shell can currently complete basic unix commands such as cat, ls, help and
+cd. I found this project useful as it teaches some computer system principles
+and shows what basically goes on under the hood in a shell, in a very basic
+sense.
 
-Alot of inspiration was taken from
-https://brennan.io/2015/01/16/write-a-shell-in-c/.
-
-Inside the folder src, contains the necessary files to run this project.
+The folder 'src' contains the necessary files to run this project.
